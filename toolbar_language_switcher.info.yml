@@ -1,0 +1,4 @@
+type: module
+name: Admin Toolbar Language Switcher
+description: Provides Toolbar Language Switcher for visualization of the current page language context and possibility to change it.
+core: 8.x
