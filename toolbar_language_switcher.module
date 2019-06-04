@@ -1,0 +1,67 @@
+<?php
+
+/**
+ * @file
+ * Contains module functionality.
+ */
+
+use Drupal\Core\Link;
+use Drupal\Core\Url;
+
+/**
+ * Implements hook_toolbar().
+ */
+function toolbar_language_switcher_toolbar() {
+  // Get languages, get current route.
+  $current_language = \Drupal::languageManager()->getCurrentLanguage()->getId();
+  $languages = \Drupal::languageManager()->getLanguages();
+  $route = \Drupal::service('path.matcher')
+    ->isFrontPage() ? '<front>' : '<current>';
+
+  // Get links.
+  $links = [];
+  foreach ($languages as $language) {
+    $url = new Url($route, [], ['language' => $language]);
+    $links[] = [
+      '#markup' => Link::fromTextAndUrl($language->getName(), $url)
+        ->toString(),
+    ];
+  }
+
+  // Set cache.
+  $items['admin_toolbar_langswitch'] = [
+    '#cache' => [
+      'contexts' => [
+        'languages:language_interface',
+        'url',
+      ],
+    ],
+  ];
+
+  // Build toolbar item and tray.
+  $items['admin_toolbar_langswitch'] += [
+    '#type'   => 'toolbar_item',
+    '#weight' => 999,
+    'tab'     => [
+      '#type'       => 'html_tag',
+      '#tag'        => 'div',
+      '#value'      => t('Language: @lang', ['@lang' => strtoupper($current_language)]),
+      '#attributes' => [
+        'class' => ['toolbar-item-admin-toolbar-langswitch'],
+        'title' => t('Admin Toolbar Language Switcher'),
+      ],
+    ],
+    'tray'    => [
+      '#heading' => t('Admin Toolbar Language Switcher'),
+      'content'  => [
+        '#theme'      => 'item_list',
+        '#items'      => $links,
+        '#attributes' => [
+          'class' => ['toolbar-menu'],
+        ],
+      ],
+    ],
+  ];
+
+  return $items;
+}
