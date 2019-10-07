@@ -1,0 +1,5 @@
+{
+    "name": "drupal/toolbar_language_switcher",
+    "description": "Provides Toolbar Language Switcher for visualization of the current page language context and possibility to change it.",
+    "type": "drupal-module"
+}
