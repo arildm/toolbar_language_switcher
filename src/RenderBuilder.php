@@ -80,8 +80,8 @@ class RenderBuilder {
     foreach ($this->languages as $language) {
       $url = new Url($this->route, [], ['language' => $language]);
       $links[] = [
-        '#markup' => Link::fromTextAndUrl($language->getName(), $url)
-          ->toString(),
+        'title' => $language->getName(),
+        'url' => $url,
       ];
     }
 
@@ -111,8 +111,8 @@ class RenderBuilder {
       'tray'    => [
         '#heading' => $this->t('Admin Toolbar Language Switcher'),
         'content'  => [
-          '#theme'      => 'item_list',
-          '#items'      => $links,
+          '#theme'      => 'links',
+          '#links'      => $links,
           '#attributes' => [
             'class' => ['toolbar-menu'],
           ],
