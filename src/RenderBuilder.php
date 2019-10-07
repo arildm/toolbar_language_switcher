@@ -62,7 +62,7 @@ class RenderBuilder {
     $this->languageManager = $language_manager;
     $this->pathMatcher = $path_matcher;
     // Get languages, get current route.
-    $this->currentLanguage = $this->languageManager->getCurrentLanguage()->getId();
+    $this->currentLanguage = $this->languageManager->getCurrentLanguage()->getName();
     $this->languages = $this->languageManager->getLanguages();
     $this->route = $this->pathMatcher->isFrontPage() ? '<front>' : '<current>';
   }
@@ -102,7 +102,7 @@ class RenderBuilder {
       'tab'     => [
         '#type'       => 'html_tag',
         '#tag'        => 'div',
-        '#value'      => $this->t('Language: @lang', ['@lang' => strtoupper($this->currentLanguage)]),
+        '#value'      => $this->currentLanguage,
         '#attributes' => [
           'class' => ['toolbar-item-admin-toolbar-langswitch'],
           'title' => $this->t('Admin Toolbar Language Switcher'),
